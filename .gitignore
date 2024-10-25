@@ -7,3 +7,4 @@ media/products/2024/10/*.png
 build/
 temp-*
 media/products/pdfs/**/*.pdf
+media/**/*.pdf
