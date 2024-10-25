@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from parler.models import TranslatableModel, TranslatedFields
+from django.core.exceptions import ValidationError
 
 class Category(TranslatableModel):
     translations = TranslatedFields(
@@ -23,6 +24,10 @@ class Category(TranslatableModel):
             'shop:product_list_by_category', args=[self.slug]
         )
 
+def validate_pdf(file):
+    if not file.name.endswith('.pdf'):
+        raise ValidationError("Solo se permiten archivos PDF.")
+
 class Product(TranslatableModel):
     translations = TranslatedFields(
         name = models.CharField(max_length=200),
@@ -37,6 +42,13 @@ class Product(TranslatableModel):
     image = models.ImageField(
         upload_to='products/%Y/%m/%d',
         blank=True
+    )
+    pdf_file = models.FileField(
+        upload_to='products/pdfs/%Y/%m/%d/',  # Define el directorio donde se almacenarán los PDFs
+        blank=True,
+        null=True,
+        validators=[validate_pdf],  # Agregamos la validación
+        help_text="Sube el archivo PDF del producto"
     )
     price = models.DecimalField(max_digits=10, decimal_places=2)
     available = models.BooleanField(default=True)
