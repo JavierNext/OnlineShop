@@ -6,3 +6,4 @@ media/products/2024/10/*.png
 *.log
 build/
 temp-*
+*.pdf
