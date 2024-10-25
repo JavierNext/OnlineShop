@@ -3,3 +3,6 @@
 media/products/2024/10/*.png
 **/__pycache__/
 **/migrations/
+*.log
+build/
+temp-*
